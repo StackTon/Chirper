@@ -1,5 +1,4 @@
 01. registration data
-02. mainFeed page
 03. profile my page
 04. discort page
 05. profile page

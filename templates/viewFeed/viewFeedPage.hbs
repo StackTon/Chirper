@@ -3,18 +3,20 @@
 <div class="content">
     <div class="chirper">
 
-        <h2 class="titlebar">Username</h2>
+        <h2 class="titlebar">{{username}}</h2>
 
         {{> viewFeedForm}}
 
         <div id="userStats" class="user-details">
-            <span>0 chirps</span> | <span>1 following</span> | <span>0 followers</span>
+            <span>{{chirps}} chirps</span> | <span>{{following}} following</span> | <span>{{followers}} followers</span>
         </div>
     </div>
     <div id="chirps" class="chirps">
         <h2 class="titlebar">Chirps</h2>
         {{#each articles}}
             {{> viewFeedArticle}}
+            {{else}}
+            <div>No cgiros in database</div>
         {{/each}}
     </div>
 </div>
