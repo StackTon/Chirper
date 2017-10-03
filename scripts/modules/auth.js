@@ -20,9 +20,11 @@ let auth = (() => {
 
     // user/register
     function register(username, password, repeatPass) {
+        let subscriptions = ["alex"];
         let userData = {
             username,
-            password
+            password,
+            subscriptions
         };
 
         return requester.post('user', '', 'basic', userData);

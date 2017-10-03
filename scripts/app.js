@@ -32,6 +32,20 @@ $(() => {
             let repeatPassword = ctx.params.repeatPass;
 
             //TODO
+            if (username.length < 5) {
+                auth.showError('Username must be at least 5 length!')
+                return;
+            }
+
+            if (password.length === 0) {
+                auth.showError("Password can't be empty!")
+                return;
+            }
+
+            if (password !== repeatPassword) {
+                auth.showError("Passwords don't match!")
+                return;
+            }
 
             auth.register(username, password, repeatPassword).then(function (userInfo) {
                 auth.saveSession(userInfo);
@@ -42,14 +56,27 @@ $(() => {
 
         // Main Feed
         this.get('#/mainFeed', function (ctx) {
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
-                navigation: './templates/common/navigation.hbs',
-                viewFeedForm: './templates/viewFeed/viewFeedForm.hbs'
-            }).then(function () {
-                this.partial('./templates/viewFeed/viewFeedPage.hbs');
+            let username = sessionStorage.getItem('username');
+            teamsService.loadFollowing(username).then(function(following){
+                //TODO make following in rigth format (JSON)
+                console.log(JSON.stringify(following[0].subscriptions));
+                teamsService.listAllChirps(JSON.stringify(following[0].subscriptions))
+                    .then(function(articles){
+                        console.log(articles)
+                        ctx.articles = articles;
+                        ctx.loadPartials({
+                            header: './templates/common/header.hbs',
+                            footer: './templates/common/footer.hbs',
+                            navigation: './templates/common/navigation.hbs',
+                            viewFeedForm: './templates/viewFeed/viewFeedForm.hbs',
+                            viewFeedArticle: './templates/viewFeed/viewFeedArticle.hbs'
+                        }).then(function () {
+                            this.partial('./templates/viewFeed/viewFeedPage.hbs');
+                        })
+                    })
             })
+
+           
         })
 
         // Discover
@@ -70,7 +97,7 @@ $(() => {
                 footer: './templates/common/footer.hbs',
                 navigation: './templates/common/navigation.hbs',
                 viewMeForm: './templates/viewMe/viewMeForm.hbs'
-            }).then(function(){
+            }).then(function () {
                 this.partial('./templates/viewMe/viewMePage.hbs');
             })
         });
