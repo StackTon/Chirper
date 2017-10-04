@@ -59,6 +59,9 @@ $(() => {
             ctx.username = username;
             teamsService.loadFollowing(username).then(function (following) {
                 let subs = following[0].subscriptions;
+                if(subs === undefined){
+                    subs = [];
+                }
                 teamsService.loadCountChirps(username)
                     .then(function (chirps) {
                         teamsService.loadFollowers(username)
