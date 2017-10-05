@@ -3,17 +3,22 @@
 <div class="content">
     <div class="chirper">
 
-        <h2 class="titlebar">Pesho</h2>
+        <h2 class="titlebar">{{username}}</h2>
 
         {{> viewMeForm}}
 
-        <div id="myStats" class="user-details">
-            <span>0 chirps</span> | <span>1 following</span> | <span>0 followers</span>
+        <div id="userStats" class="user-details">
+            <span>{{chirps}} chirps</span> | <span>{{following}} following</span> | <span>{{followers}} followers</span>
         </div>
     </div>
     <div id="myChirps" class="chirps">
         <h2 class="titlebar">Chirps</h2>
-        <div class="chirp"><span class="loading">No chirps in database</span></div>
+        {{#each allChirps}}
+            {{> viewMeArticle}}
+            {{else}}
+            <div class="chirp"><span class="loading">No chirps in database</span></div>
+        {{/each}}
+        
     </div>
 </div>
 {{> footer}}

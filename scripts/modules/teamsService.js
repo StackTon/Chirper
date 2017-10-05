@@ -23,12 +23,16 @@ let teamsService = (() => {
         return requester.get('user', '', 'kinvey');
     }
 
+    function userChirps(username){
+        return requester.get('appdata', `chirper?query={"author":"${username}"}&sort={"_kmd.ect": 1}`, 'kinvey');
+    }
     return {
         listAllChirps,
         loadFollowing,
         loadCountChirps,
         loadFollowers,
         createChirp,
-        loadAllUsers
+        loadAllUsers,
+        userChirps
     };
 })();
