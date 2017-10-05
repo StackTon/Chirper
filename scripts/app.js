@@ -108,13 +108,28 @@ $(() => {
 
         // Discover
         this.get('#/discover', function (ctx) {
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
-                navigation: './templates/common/navigation.hbs'
-            }).then(function () {
-                this.partial('./templates/viewDiscover/viewDiscoverPage.hbs');
-            });
+            let username = sessionStorage.getItem('username');
+            teamsService.loadAllUsers()
+                .then(function(allUsers){
+                    for (let index = 0; index < allUsers.length; index++) {
+                        if(allUsers[index].subscriptions === undefined){
+                            allUsers[index].subscriptions = [];
+                        }
+                        allUsers[index].followers = allUsers[index].subscriptions.length;
+                        if(allUsers[index].username === username){
+                            delete allUsers[index];
+                        }
+                    }
+                    ctx.users = allUsers;
+                    ctx.loadPartials({
+                        header: './templates/common/header.hbs',
+                        footer: './templates/common/footer.hbs',
+                        navigation: './templates/common/navigation.hbs',
+                        user: './templates/viewDiscover/user.hbs'
+                    }).then(function () {
+                        this.partial('./templates/viewDiscover/viewDiscoverPage.hbs');
+                    });
+                });
         });
 
         // Me

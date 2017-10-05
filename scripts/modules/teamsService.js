@@ -18,12 +18,17 @@ let teamsService = (() => {
     function createChirp(data){
         return requester.post('appdata', 'chirper', 'kinvey', data);
     }
+    
+    function loadAllUsers(){
+        return requester.get('user', '', 'kinvey');
+    }
 
     return {
         listAllChirps,
         loadFollowing,
         loadCountChirps,
         loadFollowers,
-        createChirp
+        createChirp,
+        loadAllUsers
     };
 })();
